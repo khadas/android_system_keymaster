@@ -1359,7 +1359,8 @@ keymaster_error_t SoftKeymasterDevice::finish(const keymaster1_device_t* dev,
     request.op_handle = operation_handle;
     if (signature && signature->data_length > 0)
         request.signature.Reinitialize(signature->data, signature->data_length);
-    request.additional_params.Reinitialize(*params);
+    if (params)
+        request.additional_params.Reinitialize(*params);
 
     FinishOperationResponse response;
     convert_device(dev)->impl_->FinishOperation(request, &response);
